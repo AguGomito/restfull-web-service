@@ -1,7 +1,12 @@
 package com.RestFulWebService.demo.controller;
 
+import com.RestFulWebService.demo.model.request.UserDetailsRequestModel;
 import com.RestFulWebService.demo.model.response.UserRest;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping("users")
@@ -13,19 +18,25 @@ public class UserController {
     }
 
     @GetMapping(path = "/{userId}")
-    public UserRest getUser(@PathVariable String userId) {
+    public ResponseEntity<UserRest> getUser(@PathVariable String userId) {
         UserRest returnValue = new UserRest();
 
         returnValue.setEmail("test@test.com");
         returnValue.setFirstName("Gomito");
         returnValue.setLastName("Gomito");
 
-        return returnValue;
+        return new ResponseEntity<UserRest>(returnValue, HttpStatus.OK);
     }
 
     @PostMapping
-    public String createUser() {
-        return "create user was called";
+    public ResponseEntity<UserRest> createUser(@Valid @RequestBody UserDetailsRequestModel userDetails) {
+        UserRest returnValue = new UserRest();
+
+        returnValue.setEmail(userDetails.getEmail());
+        returnValue.setFirstName(userDetails.getFirstName());
+        returnValue.setLastName(userDetails.getLastName());
+
+        return new ResponseEntity<UserRest>(returnValue, HttpStatus.OK);
     }
 
     @PutMapping
