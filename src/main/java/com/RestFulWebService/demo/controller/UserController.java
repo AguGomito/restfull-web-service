@@ -19,8 +19,13 @@ public class UserController {
     Map<String, UserRest> users;
 
     @GetMapping
-    public String getUsers(@RequestParam(value = "page", defaultValue = "1") int page, @RequestParam(value = "limit", defaultValue = "50") int limit, @RequestParam(value = "sort", required = false) String sort) {
-        return "get user was called with page = " + page + " , limit = " + limit + " , sort = " + sort;
+    public ResponseEntity<UserRest> getUsers(@RequestParam(value = "page", defaultValue = "1") int page, @RequestParam(value = "limit", defaultValue = "50") int limit, @RequestParam(value = "sort", required = false) String sort) {
+        ResponseEntity<UserRest> usersResponseEntity = null;
+        if(!users.isEmpty()) {
+            for (users: UserRest user) {
+                usersResponseEntity.getBody(user);
+            }
+        }
     }
 
     @GetMapping(path = "/{userId}")
